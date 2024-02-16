@@ -2,6 +2,7 @@ package com.information.portfolio.repository;
 
 import com.information.portfolio.model.Project;
 import com.information.portfolio.model.Tecnology;
+import com.information.portfolio.model.response.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,7 +30,7 @@ public class ProjectDAO {
         this.dataSource = dataSource;
     }
 
-    public Object getAllProjects()  {
+    public List<Project> getAllProjects() throws SQLException {
         /*
         1- Definir la conexion
         2- Preparar el statement (Statement, PreparedStatement, CallableStatement-> procedemientosAlmacenados
@@ -40,8 +41,7 @@ public class ProjectDAO {
         List<Project> projectList = new ArrayList<>();
         try(Connection conn = dataSource.getConnection();
             Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(SELECT_ALL_PROJECTS);)
-        {
+            ResultSet resultSet = statement.executeQuery(SELECT_ALL_PROJECTS);) {
 
             Map<String, Project> projectMap = new HashMap<>();
 
@@ -68,13 +68,7 @@ public class ProjectDAO {
                 project.getTechnologies().add(technology);
             }
 
-           projectList = new ArrayList<>(projectMap.values());
-
-
-
-        }catch (SQLException exception)
-        {
-            logger.error("Ocurrio un error al ejecutar la consulta");
+            projectList = new ArrayList<>(projectMap.values());
         }
 
         return projectList;
