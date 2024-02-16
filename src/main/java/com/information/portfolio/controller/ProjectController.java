@@ -1,5 +1,6 @@
 package com.information.portfolio.controller;
 
+import com.information.portfolio.model.response.Result;
 import com.information.portfolio.service.ProjectService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -19,8 +20,8 @@ public class ProjectController {
     }
 
     @GetMapping(path = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getProjects() {
-        return ResponseEntity.ok().body(projectService.getAllProjects());
+    public ResponseEntity<Result> getProjects() {
+        return projectService.getAllProjects();
     }
 
 }
